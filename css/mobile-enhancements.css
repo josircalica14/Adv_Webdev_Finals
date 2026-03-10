@@ -1,0 +1,25 @@
+/* Mobile Enhancements */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
+    button,
+    .btn,
+    a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    input,
+    textarea,
+    select {
+        font-size: 16px;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .hover-effect:hover {
+        transform: none;
+    }
+}

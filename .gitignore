@@ -1,0 +1,41 @@
+# Configuration files (contains sensitive credentials)
+config/app.config.php
+config/security.php
+
+# Uploaded files
+uploads/
+temp/
+
+# Cache files
+cache/
+*.cache
+
+# Log files
+logs/
+*.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+vendor/
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Backup files
+*.sql
+*.sql.gz
+*.tar.gz
+*-backup-*
+backup-*

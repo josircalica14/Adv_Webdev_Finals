@@ -140,3 +140,50 @@ function escHtml(str) {
          
  // All animations will take twice the time to accomplish
  document.documentElement.style.setProperty('--animate-duration', '5s');
+
+
+// Smooth scroll for navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all navigation links that point to sections on the same page
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Only handle links that start with # and have content after it
+            if (href && href.length > 1) {
+                e.preventDefault();
+                
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // Smooth scroll to the target element
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Update URL without jumping
+                    history.pushState(null, null, href);
+                }
+            }
+        });
+    });
+    
+    // Handle initial page load with hash
+    if (window.location.hash) {
+        setTimeout(() => {
+            const targetId = window.location.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }, 100);
+    }
+});

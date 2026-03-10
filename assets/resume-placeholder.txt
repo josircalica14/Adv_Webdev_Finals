@@ -1,0 +1,20 @@
+PLACEHOLDER FOR RESUME.PDF
+
+This is a placeholder file. Replace this with your actual resume PDF file.
+
+To add your resume:
+1. Create or export your resume as a PDF file
+2. Name it "resume.pdf"
+3. Place it in the assets/ directory
+4. Delete this placeholder file
+
+The resume should include:
+- Contact information
+- Education (BSIT program details)
+- Technical skills
+- Work experience
+- Projects
+- Certifications (if any)
+
+Recommended file size: Under 5MB
+Recommended format: PDF (for universal compatibility)

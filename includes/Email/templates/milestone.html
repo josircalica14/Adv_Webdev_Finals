@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Milestone Reached</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #27ae60;
+            margin: 0;
+            font-size: 28px;
+        }
+        .celebration {
+            text-align: center;
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: #27ae60;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button:hover {
+            background-color: #229954;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .stats-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .stats-box .number {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stats-box .label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .tips {
+            background-color: #e8f5e9;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="celebration">🎉</div>
+            <h1>Congratulations!</h1>
+        </div>
+        
+        <div class="content">
+            <p>Hi {{full_name}},</p>
+            
+            <p>Great news! Your portfolio has reached an exciting milestone:</p>
+            
+            <div class="stats-box">
+                <div class="label">{{milestone}}</div>
+                <div class="number">{{view_count}}</div>
+                <div class="label">Portfolio Views</div>
+            </div>
+            
+            <p>Your hard work is paying off! People are discovering and viewing your portfolio, which means your projects and achievements are making an impact.</p>
+            
+            <div style="text-align: center;">
+                <a href="{{portfolio_url}}" class="button">View Your Dashboard</a>
+            </div>
+            
+            <div class="tips">
+                <strong>💡 Tips to keep growing:</strong>
+                <ul style="margin: 10px 0;">
+                    <li>Add new projects regularly to keep your portfolio fresh</li>
+                    <li>Update your bio and profile information</li>
+                    <li>Share your portfolio link on social media</li>
+                    <li>Customize your portfolio appearance to stand out</li>
+                    <li>Export your portfolio as a PDF to share offline</li>
+                </ul>
+            </div>
+            
+            <p>Keep up the excellent work, and thank you for being part of the Portfolio Platform community!</p>
+            
+            <p>Best regards,<br>
+            <strong>The Portfolio Platform Team</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 Portfolio Platform. All rights reserved.</p>
+            <p><a href="{{unsubscribe_url}}">Unsubscribe</a> from milestone notifications</p>
+        </div>
+    </div>
+</body>
+</html>

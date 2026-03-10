@@ -1,0 +1,557 @@
+/**
+ * Portfolio View Page Styles
+ * Clean minimal design with pink accents matching the website theme
+ */
+
+body {
+    background: #eaeaea;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Header Section */
+.portfolio-header-section {
+    background: #eaeaea;
+    padding: 80px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #0f0f0f;
+    margin-bottom: 60px;
+}
+
+.portfolio-profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.portfolio-photo {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #d6a5ad;
+    box-shadow: 0 8px 30px rgba(214, 165, 173, 0.4);
+    transition: transform 0.3s;
+    background: #e0e0e0;
+}
+
+.portfolio-photo:hover {
+    transform: scale(1.05);
+}
+
+.portfolio-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.portfolio-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: #999999;
+}
+
+.portfolio-name {
+    font-size: 48px;
+    font-weight: 900;
+    color: #0f0f0f;
+    margin: 0 0 10px 0;
+    letter-spacing: 1px;
+}
+
+.portfolio-username {
+    font-size: 18px;
+    color: #666666;
+    margin: 0 0 20px 0;
+    font-weight: 600;
+}
+
+.portfolio-program-badge {
+    display: inline-block;
+    padding: 10px 30px;
+    background: #0f0f0f;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    border: 2px solid #0f0f0f;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.portfolio-program-badge:hover {
+    background: #d6a5ad;
+    color: #0f0f0f;
+}
+
+.portfolio-bio {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #666666;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+}
+
+.back-to-showcase-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 35px;
+    background: white;
+    color: #0f0f0f;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+    border: 1px solid #0f0f0f;
+    border-radius: 50px;
+}
+
+.back-to-showcase-btn:hover {
+    background: #0f0f0f;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.back-to-showcase-btn i {
+    margin-right: 8px;
+}
+
+/* Portfolio Items Section */
+.bowls-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px 80px;
+    background: #eaeaea;
+}
+
+.bowls-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.bowls-header h3 {
+    font-size: 42px;
+    font-weight: 900;
+    color: #0f0f0f;
+    margin: 0 0 10px 0;
+    letter-spacing: 2px;
+}
+
+.bowls-header p {
+    font-size: 14px;
+    color: #666666;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* No Items Message */
+.no-items-message {
+    text-align: center;
+    padding: 80px 20px;
+    background: white;
+    border: 1px solid #0f0f0f;
+}
+
+.no-items-message i {
+    font-size: 64px;
+    color: #d6a5ad;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.no-items-message h3 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #0f0f0f;
+    margin: 0 0 10px 0;
+}
+
+.no-items-message p {
+    font-size: 15px;
+    color: #666666;
+    margin: 0;
+}
+
+/* Project Cards */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.project-card {
+    background: white;
+    border: 1px solid #0f0f0f;
+    padding: 0;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(214, 165, 173, 0.25);
+    border-color: #d6a5ad;
+}
+
+.project-image-container {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: #e0e0e0;
+}
+
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.05);
+}
+
+.project-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: all 0.3s;
+}
+
+.project-card:hover .project-image-placeholder {
+    background: #d6a5ad;
+}
+
+.project-image-placeholder i {
+    font-size: 56px;
+    color: #999999;
+}
+
+.project-card:hover .project-image-placeholder i {
+    color: white;
+}
+
+.project-image-placeholder span {
+    font-size: 32px;
+    font-weight: 900;
+    color: #999999;
+    letter-spacing: 2px;
+}
+
+.project-card:hover .project-image-placeholder span {
+    color: white;
+}
+
+.project-type-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 8px 18px;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    z-index: 2;
+    border-radius: 4px;
+}
+
+.project-type-badge.type-project {
+    background: #0f0f0f;
+    color: white;
+}
+
+.project-type-badge.type-achievement {
+    background: #d6a5ad;
+    color: #0f0f0f;
+}
+
+.project-type-badge.type-milestone {
+    background: white;
+    color: #0f0f0f;
+    border: 1px solid #0f0f0f;
+}
+
+.project-content {
+    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #0f0f0f;
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+}
+
+.project-author {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.project-author i {
+    color: #d6a5ad;
+    margin-right: 6px;
+}
+
+.project-date {
+    font-size: 13px;
+    color: #666666;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.project-date i {
+    margin-right: 6px;
+    color: #d6a5ad;
+}
+
+.project-description {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666666;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #d8d8d8;
+}
+
+.project-tag {
+    padding: 6px 14px;
+    background: #f5e8eb;
+    color: #0f0f0f;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.project-tag:hover {
+    background: #d6a5ad;
+    transform: translateY(-2px);
+}
+
+.project-view-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    color: #d6a5ad;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.project-view-link:hover {
+    color: #0f0f0f;
+    transform: translateX(4px);
+}
+
+.project-view-link i {
+    font-size: 12px;
+}
+
+/* Skills Showcase Section */
+.skills-showcase-section {
+    margin-bottom: 60px;
+}
+
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.skills-category {
+    background: white;
+    border: 1px solid #0f0f0f;
+    padding: 35px;
+    transition: all 0.3s;
+}
+
+.skills-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(214, 165, 173, 0.2);
+    border-color: #d6a5ad;
+}
+
+.skills-category-title {
+    font-size: 24px;
+    font-weight: 900;
+    color: #0f0f0f;
+    margin: 0 0 25px 0;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #d6a5ad;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.skills-category-title i {
+    color: #d6a5ad;
+    font-size: 20px;
+}
+
+.skills-tags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skill-tag {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s;
+    cursor: default;
+}
+
+.skill-tag.technical-skill {
+    background: #0f0f0f;
+    color: white;
+    border: 1px solid #0f0f0f;
+}
+
+.skill-tag.technical-skill:hover {
+    background: #d6a5ad;
+    color: #0f0f0f;
+    transform: translateY(-3px);
+}
+
+.skill-tag.soft-skill {
+    background: white;
+    color: #0f0f0f;
+    border: 1px solid #0f0f0f;
+}
+
+.skill-tag.soft-skill:hover {
+    background: #d6a5ad;
+    color: white;
+    border-color: #d6a5ad;
+    transform: translateY(-3px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .bowls-section {
+        padding: 0 40px 60px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    
+    .skills-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .portfolio-header-section {
+        padding: 60px 20px 40px;
+    }
+    
+    .portfolio-name {
+        font-size: 36px;
+    }
+    
+    .portfolio-photo {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .bowls-section {
+        padding: 0 20px 60px;
+    }
+    
+    .bowls-header h3 {
+        font-size: 32px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .project-content {
+        padding: 20px;
+    }
+    
+    .project-image-container {
+        height: 200px;
+    }
+    
+    .skills-category {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .portfolio-name {
+        font-size: 28px;
+    }
+    
+    .portfolio-photo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .bowls-header h3 {
+        font-size: 28px;
+    }
+    
+    .project-image-container {
+        height: 180px;
+    }
+}
+
+/* Ensure Chatbot is Fixed on Portfolio View Page */
+.chatbot-toggle {
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    z-index: 9999 !important;
+}
+
+.chatbot-container {
+    position: fixed !important;
+    bottom: 100px !important;
+    right: 30px !important;
+    z-index: 9998 !important;
+}

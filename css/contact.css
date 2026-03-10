@@ -1,0 +1,232 @@
+/**
+ * Contact Page Styles
+ * Clean minimal design with pink accents
+ */
+
+/* Contact Container */
+.contacto {
+    background: var(--bg);
+    min-height: 100vh;
+}
+
+/* Marquee Animations */
+.marquee,
+.marquee1 {
+    width: 100%;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 40px 0;
+}
+
+.marquee span {
+    font-weight: 900;
+    color: var(--text-primary);
+    font-size: 80px;
+    text-transform: uppercase;
+    display: inline-block;
+    animation: marquee-animation 80s linear infinite;
+    letter-spacing: 2px;
+}
+
+.marquee1 span {
+    font-weight: 900;
+    color: var(--text-primary);
+    font-size: 48px;
+    text-transform: uppercase;
+    display: inline-block;
+    animation: marquee-animation 80s linear infinite;
+    letter-spacing: 2px;
+}
+
+@keyframes marquee-animation {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-100%, 0);
+    }
+}
+
+/* Contact Form */
+#contact-form {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 40px;
+    background: white;
+    border: 1px solid var(--border);
+}
+
+#contact-form ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#contact-form li {
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+#contact-form li:last-of-type {
+    margin-bottom: 0;
+}
+
+#contact-form label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#contact-form input,
+#contact-form textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(214, 165, 173, 0.1);
+}
+
+#contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Send Button */
+.send {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 16px 45px;
+    background: var(--text-primary);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 2px solid var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 50px;
+}
+
+.send:hover {
+    background: var(--accent);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+/* Contact Header */
+.contact-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.contact-header h1 {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin: 0 0 15px 0;
+    letter-spacing: 2px;
+}
+
+.contact-header p {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Success/Error Messages */
+.form-message {
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border: 1px solid;
+    border-radius: var(--radius-sm);
+}
+
+.form-message.success {
+    background: rgba(45, 122, 79, 0.1);
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.form-message.error {
+    background: rgba(192, 57, 43, 0.1);
+    color: var(--error);
+    border-color: var(--error);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .marquee span {
+        font-size: 40px;
+    }
+
+    .marquee1 span {
+        font-size: 32px;
+    }
+
+    #contact-form {
+        margin: 40px 20px;
+        padding: 30px 25px;
+    }
+
+    .contact-header {
+        padding: 40px 20px 30px;
+    }
+
+    .contact-header h1 {
+        font-size: 36px;
+    }
+
+    .send {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .marquee span {
+        font-size: 32px;
+    }
+
+    .marquee1 span {
+        font-size: 24px;
+    }
+
+    #contact-form {
+        margin: 30px 15px;
+        padding: 25px 20px;
+    }
+
+    .contact-header h1 {
+        font-size: 28px;
+    }
+
+    #contact-form input,
+    #contact-form textarea {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .send {
+        padding: 14px 35px;
+        font-size: 13px;
+    }
+}

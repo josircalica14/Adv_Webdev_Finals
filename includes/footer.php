@@ -48,4 +48,40 @@
        </div>
      </div>
    </div>    
- </div>     
+ </div>
+
+ <!-- AI Chatbot Widget -->
+ <button class="chatbot-toggle" id="chatbot-toggle">
+   <i class="fas fa-comment-dots"></i>
+ </button>
+
+ <div class="chatbot-container" id="chatbot-container">
+   <div class="chatbot-header">
+     <h3>AI Assistant</h3>
+     <button class="chatbot-close" id="chatbot-close">
+       <i class="fas fa-times"></i>
+     </button>
+   </div>
+   
+   <div class="chatbot-messages" id="chatbot-messages">
+     <div class="chatbot-message bot">
+       <div class="message-bubble">
+         Hello! I'm your AI assistant. How can I help you today?
+       </div>
+       <div class="message-time">Just now</div>
+     </div>
+   </div>
+   
+   <div class="chatbot-input">
+     <input 
+       type="text" 
+       id="chatbot-input" 
+       placeholder="Type your message..."
+       autocomplete="off"
+     />
+     <button class="chatbot-send" id="chatbot-send">
+       <i class="fas fa-paper-plane"></i>
+     </button>
+   </div>
+ </div>
+ <!-- End AI Chatbot Widget -->

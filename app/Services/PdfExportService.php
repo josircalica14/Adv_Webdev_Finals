@@ -30,7 +30,11 @@ class PdfExportService
         $html = $this->injectBaseUrl($html);
 
         try {
-            $chromePath = env('BROWSERSHOT_CHROME_PATH');
+            // Use env var, or auto-detect Chromium on Railway (nixpacks installs to /run/current-system/sw/bin/chromium)
+            $chromePath = env('BROWSERSHOT_CHROME_PATH')
+                ?? (file_exists('/run/current-system/sw/bin/chromium') ? '/run/current-system/sw/bin/chromium' : null)
+                ?? (file_exists('/usr/bin/chromium') ? '/usr/bin/chromium' : null)
+                ?? (file_exists('/usr/bin/chromium-browser') ? '/usr/bin/chromium-browser' : null);
 
             $shot = Browsershot::html($html)
                 ->noSandbox()

@@ -44,17 +44,26 @@ class FileStorageService
         }
 
         $storedName = now()->format('YmdHis') . '_' . Str::uuid() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
-        $path = $file->storeAs('uploads', $storedName, 'portfolio');
+        $path = 'uploads/' . $storedName;
+
+        $disk = Storage::disk('portfolio');
 
         $thumbnailPath = null;
         if (str_starts_with($file->getMimeType(), 'image/')) {
             try {
-                $thumbnailPath = $this->generateThumbnail($path);
-                $this->compressImage($path);
+                // Process image in memory, then upload
+                [$processedContent, $thumbnailContent] = $this->processImageInMemory($file->getRealPath(), $file->getMimeType());
+                $disk->put($path, $processedContent, 'public');
+
+                $thumbName = 'thumbs/' . pathinfo($storedName, PATHINFO_FILENAME) . '_thumb.' . $file->getClientOriginalExtension();
+                $disk->put($thumbName, $thumbnailContent, 'public');
+                $thumbnailPath = $thumbName;
             } catch (\Throwable $e) {
-                // GD not available or image processing failed — continue without thumbnail
                 \Illuminate\Support\Facades\Log::warning('Image processing failed', ['error' => $e->getMessage()]);
+                $disk->put($path, file_get_contents($file->getRealPath()), 'public');
             }
+        } else {
+            $disk->put($path, file_get_contents($file->getRealPath()), 'public');
         }
 
         return File::create([
@@ -88,6 +97,57 @@ class FileStorageService
     public function getUserStorageUsage(User $user): int
     {
         return (int) File::where('user_id', $user->id)->sum('file_size');
+    }
+
+    /**
+     * Process image in memory — compress + generate thumbnail.
+     * Returns [processedContent, thumbnailContent] as raw binary strings.
+     * Works with both local disk and R2/S3.
+     */
+    public function processImageInMemory(string $localPath, string $mime): array
+    {
+        [$width, $height] = getimagesize($localPath);
+        $src = $this->loadImage($localPath);
+
+        // Compress main image if too large
+        if (max($width, $height) > self::COMPRESS_MAX) {
+            $scale = self::COMPRESS_MAX / max($width, $height);
+            $newW  = (int) round($width * $scale);
+            $newH  = (int) round($height * $scale);
+            $dest  = imagecreatetruecolor($newW, $newH);
+            imagecopyresampled($dest, $src, 0, 0, 0, 0, $newW, $newH, $width, $height);
+            imagedestroy($src);
+            $src = $dest;
+            $width = $newW; $height = $newH;
+        }
+
+        $processedContent = $this->imageToString($src, $mime);
+
+        // Thumbnail
+        $scale = min(self::THUMB_MAX / $width, self::THUMB_MAX / $height, 1.0);
+        $tW    = (int) round($width * $scale);
+        $tH    = (int) round($height * $scale);
+        $thumb = imagecreatetruecolor($tW, $tH);
+        imagecopyresampled($thumb, $src, 0, 0, 0, 0, $tW, $tH, $width, $height);
+        $thumbnailContent = $this->imageToString($thumb, $mime);
+
+        imagedestroy($src);
+        imagedestroy($thumb);
+
+        return [$processedContent, $thumbnailContent];
+    }
+
+    private function imageToString(\GdImage $image, string $mime): string
+    {
+        ob_start();
+        match ($mime) {
+            'image/jpeg' => imagejpeg($image, null, 85),
+            'image/png'  => imagepng($image, null, 8),
+            'image/webp' => imagewebp($image, null, 85),
+            'image/gif'  => imagegif($image),
+            default      => imagejpeg($image, null, 85),
+        };
+        return ob_get_clean();
     }
 
     public function generateThumbnail(string $storedPath): string

@@ -47,13 +47,26 @@ return [
             'report' => false,
         ],
 
-        'portfolio' => [
-            'driver' => 'local',
-            'root' => storage_path('app/portfolio'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage/portfolio',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
+        'portfolio' => env('PORTFOLIO_DISK_DRIVER', 'local') === 'r2'
+            ? [
+                'driver'                  => 's3',
+                'key'                     => env('CLOUDFLARE_R2_ACCESS_KEY_ID'),
+                'secret'                  => env('CLOUDFLARE_R2_SECRET_ACCESS_KEY'),
+                'region'                  => 'auto',
+                'bucket'                  => env('CLOUDFLARE_R2_BUCKET'),
+                'url'                     => env('CLOUDFLARE_R2_URL'),
+                'endpoint'                => env('CLOUDFLARE_R2_ENDPOINT'),
+                'use_path_style_endpoint' => true,
+                'visibility'              => 'public',
+                'throw'                   => false,
+            ]
+            : [
+                'driver'     => 'local',
+                'root'       => storage_path('app/portfolio'),
+                'url'        => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage/portfolio',
+                'visibility' => 'public',
+                'throw'      => false,
+            ],
 
         's3' => [
             'driver' => 's3',

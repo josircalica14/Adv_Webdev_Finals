@@ -46,7 +46,7 @@ class ShowcaseService
         return Cache::remember('showcase:stats', 600, function () {
             $publicPortfolios = Portfolio::publicWithItems();
             return [
-                'students'   => User::count(),
+                'students'   => User::where('is_admin', false)->count(),
                 'portfolios' => Portfolio::where('is_public', true)->count(),
                 'skills'     => PortfolioItem::whereNotNull('tags')
                                     ->get()

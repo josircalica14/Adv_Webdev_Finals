@@ -12,7 +12,7 @@ class ChangeUsernameRequest extends FormRequest
     {
         return [
             'username' => [
-                'required', 'string', 'min:3', 'max:50',
+                'required', 'string', 'min:3', 'max:30',
                 'regex:/^[a-zA-Z0-9_-]+$/',
                 'unique:users,username,' . $this->user()->id,
             ],

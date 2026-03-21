@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Portfolio Platform')</title>
+    <title>@yield('title', 'Make a Name')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Serif+Display&family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -35,7 +35,7 @@
             box-shadow: 0 4px 24px rgba(0,0,0,.4);
         }
         .top-nav__logo {
-            font-family: var(--mono); font-size: .7rem; letter-spacing: .14em;
+            font-family: var(--mono); font-size: .9rem; letter-spacing: .14em;
             font-weight: 700; color: var(--white);
             display: flex; align-items: center; gap: .6rem;
         }
@@ -45,10 +45,18 @@
             box-shadow: 0 0 8px var(--accent);
             flex-shrink: 0;
         }
+        .nav-logo-img {
+            filter: drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 18px var(--accent));
+            animation: logoGlow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes logoGlow {
+            from { filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 14px var(--accent)); }
+            to   { filter: drop-shadow(0 0 12px var(--accent)) drop-shadow(0 0 28px var(--accent)); }
+        }
         .top-nav__links {
             display: flex; align-items: center;
             gap: .25rem;
-            font-family: var(--mono); font-size: .63rem;
+            font-family: var(--mono); font-size: .82rem;
             letter-spacing: .1em; text-transform: uppercase;
         }
         .top-nav__links a,
@@ -58,7 +66,7 @@
             border-radius: .35rem;
             transition: color .2s, background .2s;
             background: none; border: none; cursor: pointer;
-            font-family: var(--mono); font-size: .63rem;
+            font-family: var(--mono); font-size: .82rem;
             letter-spacing: .1em; text-transform: uppercase;
         }
         .top-nav__links a:hover,
@@ -389,8 +397,8 @@
 
 <nav class="top-nav" id="topNav">
     <a href="{{ route('showcase.index') }}" class="top-nav__logo">
-        <span class="top-nav__logo-dot"></span>
-        PORTFOLIO PLATFORM
+        <img src="{{ asset('website_logo.png') }}" alt="Make a Name" class="nav-logo-img" style="height:64px;width:auto;display:block;">
+        <span>MAKE A NAME.</span>
     </a>
 
     {{-- Desktop links --}}
@@ -398,9 +406,7 @@
         <a href="{{ route('showcase.index') }}" class="{{ request()->routeIs('showcase.*') ? 'active' : '' }}">Showcase</a>
         @auth
             <a href="{{ route('dashboard.index') }}" class="{{ request()->routeIs('dashboard.*') ? 'active' : '' }}">Dashboard</a>
-            @if(auth()->user()->username)
-                <a href="{{ route('portfolio.public', auth()->user()->username) }}" target="_blank">My Portfolio</a>
-            @endif
+            <a href="{{ auth()->user()->username ? route('portfolio.public', auth()->user()->username) : route('dashboard.profile.show') }}">My Portfolio</a>
             <form method="POST" action="{{ route('logout') }}" style="display:inline">
                 @csrf
                 <button type="submit" class="nav-btn">Logout</button>
@@ -422,9 +428,7 @@
     <a href="{{ route('showcase.index') }}" class="{{ request()->routeIs('showcase.*') ? 'active' : '' }}">Showcase</a>
     @auth
         <a href="{{ route('dashboard.index') }}" class="{{ request()->routeIs('dashboard.*') ? 'active' : '' }}">Dashboard</a>
-        @if(auth()->user()->username)
-            <a href="{{ route('portfolio.public', auth()->user()->username) }}" target="_blank">My Portfolio</a>
-        @endif
+        <a href="{{ auth()->user()->username ? route('portfolio.public', auth()->user()->username) : route('dashboard.profile.show') }}">My Portfolio</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="nav-btn">Logout</button>
@@ -438,6 +442,123 @@
 <main style="padding-top:60px">
     @yield('content')
 </main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+
+        {{-- Top row --}}
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <span class="footer-logo__dot"></span>
+                    PORTFOLIO PLATFORM
+                </div>
+                <p class="footer-tagline">A showcase for BSIT &amp; CSE students to build, own, and share their work.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <div class="footer-col__heading">Platform</div>
+                    <a href="{{ route('showcase.index') }}">Showcase</a>
+                    @auth
+                        <a href="{{ route('dashboard.index') }}">Dashboard</a>
+                        <a href="{{ route('dashboard.items.create') }}">Add Item</a>
+                        <a href="{{ route('dashboard.customize.show') }}">Customize</a>
+                    @else
+                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('register') }}">Register</a>
+                    @endauth
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col__heading">Account</div>
+                    @auth
+                        <a href="{{ route('dashboard.profile.show') }}">Profile</a>
+                        <a href="{{ route('dashboard.settings.show') }}">Settings</a>
+                        <a href="{{ route('dashboard.export.pdf') }}">Export PDF</a>
+                        <form method="POST" action="{{ route('logout') }}" style="display:inline">
+                            @csrf
+                            <button type="submit" class="footer-logout">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('register') }}">Create Account</a>
+                        <a href="{{ route('password.request') }}">Forgot Password</a>
+                    @endauth
+                </div>
+            </div>
+        </div>
+
+        {{-- Bottom row --}}
+        <div class="footer-bottom">
+            <span>© {{ date('Y') }} Portfolio Platform. Built for BSIT &amp; CSE students.</span>
+            <span class="footer-bottom__right">
+                Made with <span style="color:#e84040">♥</span> using Laravel
+            </span>
+        </div>
+
+    </div>
+</footer>
+
+<style>
+    .site-footer {
+        background: rgba(255,255,255,.02);
+        border-top: 1px solid rgba(245,240,232,.07);
+        margin-top: auto;
+    }
+    .footer-inner {
+        max-width: 1200px; margin: 0 auto;
+        padding: 4rem 5vw 2rem;
+    }
+    .footer-top {
+        display: flex; gap: 4rem;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(245,240,232,.07);
+        margin-bottom: 2rem;
+    }
+    .footer-brand { max-width: 300px; }
+    .footer-logo {
+        font-family: 'Space Mono', monospace;
+        font-size: .7rem; font-weight: 700;
+        letter-spacing: .14em; color: #f5f0e8;
+        display: flex; align-items: center; gap: .6rem;
+        margin-bottom: 1rem;
+    }
+    .footer-logo__dot {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: #e84040; box-shadow: 0 0 8px #e84040;
+        flex-shrink: 0;
+    }
+    .footer-tagline {
+        font-size: .8rem; color: rgba(245,240,232,.4);
+        line-height: 1.7;
+    }
+    .footer-links { display: flex; gap: 3rem; flex-wrap: wrap; }
+    .footer-col { display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col__heading {
+        font-family: 'Space Mono', monospace;
+        font-size: .58rem; letter-spacing: .16em;
+        text-transform: uppercase; color: rgba(245,240,232,.3);
+        margin-bottom: .3rem;
+    }
+    .footer-col a, .footer-logout {
+        font-size: .8rem; color: rgba(245,240,232,.55);
+        transition: color .2s;
+        background: none; border: none; cursor: pointer;
+        padding: 0; font-family: inherit; text-align: left;
+    }
+    .footer-col a:hover, .footer-logout:hover { color: #f5f0e8; }
+    .footer-bottom {
+        display: flex; justify-content: space-between;
+        align-items: center; flex-wrap: wrap; gap: .5rem;
+        font-family: 'Space Mono', monospace;
+        font-size: .58rem; letter-spacing: .06em;
+        color: rgba(245,240,232,.25);
+    }
+    @media(max-width:640px) {
+        .footer-top { flex-direction: column; gap: 2.5rem; }
+        .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+</style>
 
 {{-- AI Chatbot Widget --}}
 <button id="chatbot-toggle" style="position:fixed;bottom:30px;right:30px;width:56px;height:56px;background:#e84040;color:#fff;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 20px rgba(232,64,64,.4);z-index:9999;transition:all .3s">
@@ -491,6 +612,13 @@
 <style>
 .bot-bubble{max-width:85%;padding:10px 14px;background:rgba(255,255,255,.05);border:1.5px solid rgba(245,240,232,.1);border-radius:.5rem;font-size:.8rem;line-height:1.6;font-family:'Instrument Sans',sans-serif;color:#f5f0e8;word-break:break-word}
 .bot-bubble a{color:#e84040;text-decoration:underline}
+.chat-link{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .65rem;background:rgba(232,64,64,.12);border:1.5px solid rgba(232,64,64,.35);border-radius:999px;color:#e84040 !important;text-decoration:none !important;font-size:.75rem;font-family:'Space Mono',monospace;transition:all .2s;white-space:nowrap;margin:2px 0}
+.chat-link:hover{background:rgba(232,64,64,.25);border-color:#e84040;transform:translateY(-1px)}
+.chat-link--ext{background:rgba(255,255,255,.06);border-color:rgba(245,240,232,.2);color:rgba(245,240,232,.8) !important}
+.chat-link--ext:hover{background:rgba(255,255,255,.12);border-color:rgba(245,240,232,.5);color:#f5f0e8 !important}
+.chat-img-wrap{display:block;margin-top:8px}
+.chat-img{max-width:100%;border-radius:.5rem;border:1.5px solid rgba(245,240,232,.15);display:block;transition:transform .2s}
+.chat-img:hover{transform:scale(1.02)}
 .user-bubble{max-width:85%;padding:10px 14px;background:#e84040;border-radius:.5rem;font-size:.8rem;line-height:1.6;font-family:'Instrument Sans',sans-serif;color:#fff;word-break:break-word;margin-left:auto}
 .msg-time{font-size:.6rem;color:rgba(245,240,232,.35);margin-top:4px;font-family:'Space Mono',monospace}
 .chip{padding:.3rem .75rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(245,240,232,.15);border-radius:999px;color:rgba(245,240,232,.7);font-size:.65rem;font-family:'Space Mono',monospace;cursor:pointer;transition:all .2s;white-space:nowrap}
@@ -500,6 +628,10 @@
 </style>
 
 <script>
+// Force scroll to top on every page load
+history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 // Nav scroll effect + hamburger
 (function(){
     const nav = document.getElementById('topNav');
@@ -560,8 +692,20 @@
 
     function linkify(text) {
         const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        return escaped.replace(/\/portfolio\/([a-zA-Z0-9_-]+)/g,
-            '<a href="/portfolio/$1" target="_blank">/portfolio/$1</a>');
+        // Portfolio links → styled pill button
+        let out = escaped.replace(/\/portfolio\/([a-zA-Z0-9_-]+)/g,
+            '<a class="chat-link" href="/portfolio/$1"><i class="fas fa-user-circle"></i> /portfolio/$1</a>');
+        // Plain http/https URLs → styled link
+        out = out.replace(/(https?:\/\/[^\s&]+)/g,
+            '<a class="chat-link chat-link--ext" href="$1" target="_blank" rel="noopener"><i class="fas fa-link"></i> $1 <i class="fas fa-arrow-up-right-from-square" style="font-size:.6rem;opacity:.7"></i></a>');
+        // Image URLs (.png .jpg .gif .webp .svg) → inline image
+        out = out.replace(/chat-link--ext" href="([^"]+\.(png|jpg|jpeg|gif|webp|svg))[^"]*"/g,
+            (match, url) => `chat-link--ext chat-link--img" href="${url}"`);
+        out = out.replace(/<a class="chat-link chat-link--ext chat-link--img"[^>]+>.*?<\/a>/g, (match) => {
+            const url = match.match(/href="([^"]+)"/)?.[1];
+            return url ? `<a href="${url}" target="_blank" rel="noopener" class="chat-img-wrap"><img src="${url}" alt="image" class="chat-img"></a>` : match;
+        });
+        return out;
     }
 
     function addMsg(text, who) {

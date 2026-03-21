@@ -98,6 +98,10 @@ class ShowcaseService
     public function invalidateCache(): void
     {
         Cache::forget('showcase_version');
+        Cache::forget('showcase:stats');
+        Cache::forget('showcase:featured');
+        Cache::forget('showcase:recent');
+        Cache::forget('showcase:top_skills');
         Cache::put('showcase_version', now()->timestamp);
     }
 }

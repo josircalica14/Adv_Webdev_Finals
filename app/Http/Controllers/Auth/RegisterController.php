@@ -28,12 +28,14 @@ class RegisterController extends Controller
         $user = User::create([
             'name'      => $request->full_name,
             'full_name' => $request->full_name,
+            'username'  => $request->username,
             'email'     => $request->email,
             'program'   => $request->program,
             'password'  => $request->password,
         ]);
 
         $this->portfolioService->getOrCreatePortfolio($user);
+        app(\App\Services\ShowcaseService::class)->invalidateCache();
 
         $token = Str::random(64);
         $user->emailVerifications()->create([

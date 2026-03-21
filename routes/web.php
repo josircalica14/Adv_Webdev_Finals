@@ -78,9 +78,13 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::get('/customize', [CustomizationController::class, 'show'])->name('customize.show');
     Route::put('/customize', [CustomizationController::class, 'save'])->name('customize.save');
     Route::post('/customize/reset', [CustomizationController::class, 'reset'])->name('customize.reset');
+    Route::get('/customize/preview', [CustomizationController::class, 'preview'])->name('customize.preview');
 
     // PDF export
     Route::get('/export/pdf', [PortfolioApiController::class, 'export'])->name('export.pdf');
+
+    // AI portfolio feedback
+    Route::get('/ai-feedback', [DashboardController::class, 'aiFeedback'])->name('ai.feedback');
 });
 
 // Admin routes

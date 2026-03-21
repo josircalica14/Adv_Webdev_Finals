@@ -22,9 +22,7 @@
         <a href="{{ route('dashboard.profile.show') }}" class="{{ request()->routeIs('dashboard.profile.*') ? 'active' : '' }}"><i class="fas fa-user"></i> Profile</a>
         <a href="{{ route('dashboard.settings.show') }}" class="{{ request()->routeIs('dashboard.settings.*') ? 'active' : '' }}"><i class="fas fa-cog"></i> Settings</a>
         <a href="{{ route('dashboard.export.pdf') }}"><i class="fas fa-download"></i> Export PDF</a>
-        @if(auth()->user()->username)
-        <a href="{{ route('portfolio.public', auth()->user()->username) }}" target="_blank"><i class="fas fa-external-link-alt"></i> View Public</a>
-        @endif
+        <a href="{{ auth()->user()->username ? route('portfolio.public', auth()->user()->username) : route('dashboard.profile.show') }}"><i class="fas fa-external-link-alt"></i> View Public</a>
         @if(auth()->user()->is_admin)
         <hr style="border-color:rgba(245,240,232,.1);margin:1rem 0">
         <a href="{{ route('admin.index') }}"><i class="fas fa-shield-alt"></i> Admin Panel</a>

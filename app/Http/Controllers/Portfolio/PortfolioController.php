@@ -19,6 +19,10 @@ class PortfolioController extends Controller
         $portfolio = $user->portfolio;
 
         if (!$portfolio || !$portfolio->is_public) {
+            // Show a friendly message if the owner is viewing their own private portfolio
+            if (auth()->check() && auth()->id() === $user->id) {
+                return view('portfolio.private', compact('user'));
+            }
             abort(404);
         }
 
@@ -26,7 +30,7 @@ class PortfolioController extends Controller
             $this->portfolioService->incrementViewCount($portfolio);
         }
 
-        $items         = $portfolio->items()->where('is_visible', true)->get();
+        $items         = $portfolio->items()->where('is_visible', true)->with('files')->get();
         $customization = $portfolio->customization;
 
         return view('portfolio.view', compact('user', 'portfolio', 'items', 'customization'));

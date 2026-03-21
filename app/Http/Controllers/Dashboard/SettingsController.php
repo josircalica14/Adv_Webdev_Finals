@@ -20,7 +20,7 @@ class SettingsController extends Controller
 
     public function updateVisibility(Request $request): RedirectResponse
     {
-        $request->validate(['is_public' => 'required|boolean']);
+        $request->validate(['is_public' => 'nullable|boolean']);
         $this->portfolioService->toggleVisibility($request->user(), $request->boolean('is_public'));
         return back()->with('status', 'Visibility updated.');
     }

@@ -15,7 +15,7 @@
         @endphp
         <div class="hero__bg-text hero__bg-text--auth" aria-hidden="true">{{ strtoupper($firstName) }}</div>
         <div class="hero__content">
-            <div class="hero__eyebrow">MAKE A NAME,</div>
+            <div class="hero__eyebrow hero__eyebrow--auth">MAKE A NAME,</div>
             <h1 class="hero__headline">
                 <span class="line" data-text="{{ strtoupper($firstName) }}." style="font-size:{{ $nameSize }}">{{ strtoupper($firstName) }}.</span>
             </h1>
@@ -107,6 +107,7 @@
         <h2 class="section-title">Top Portfolios</h2>
         <div class="featured-grid">
             @foreach($featured as $i => $portfolio)
+            @if(!$portfolio->user->username) @continue @endif
             <a href="{{ route('portfolio.public', $portfolio->user->username) }}" class="featured-card {{ $i === 0 ? 'featured-card--hero' : '' }}">
                 <div class="featured-card__badge">
                     <i class="fas fa-fire"></i>
@@ -192,6 +193,7 @@
         <h2 class="section-title">New to the showcase</h2>
         <div class="recent-scroll">
             @foreach($recent as $portfolio)
+            @if(!$portfolio->user->username) @continue @endif
             <a href="{{ route('portfolio.public', $portfolio->user->username) }}" class="recent-card">
                 @if($portfolio->user->profile_photo_path)
                     <img src="{{ Storage::disk('portfolio')->url($portfolio->user->profile_photo_path) }}" class="recent-card__avatar" alt="{{ $portfolio->user->full_name }}">
@@ -271,7 +273,7 @@
         min-height: 100vh;
         display: flex;
         align-items: center;
-        padding: 14rem 5vw 4rem;
+        padding: 3rem 5vw 4rem;
         overflow: hidden;
         background: #181818;
     }
@@ -279,7 +281,7 @@
     .hero__bg-text {
         position: absolute;
         top: 50%;
-        transform: translateY(-50%);
+        transform: translateY(-90%);
         font-family: 'Space Mono', monospace;
         font-weight: 700;
         letter-spacing: -0.04em;
@@ -311,42 +313,45 @@
             -webkit-text-stroke-color: rgba(255,255,255,0.12);
             filter: drop-shadow(-60px 0 0px rgba(255,255,255,0))
                     drop-shadow(0 0 0px rgba(255,255,255,0));
-            transform: translateY(-50%) scale(1);
+            transform: translateY(-90%) scale(1);
         }
         25% {
             -webkit-text-stroke-color: rgba(255,255,255,0.5);
             filter: drop-shadow(-20px 0 18px rgba(255,255,255,0.6))
                     drop-shadow(0 0 40px rgba(255,255,255,0.2));
-            transform: translateY(-50%) scale(1.01);
+            transform: translateY(-90%) scale(1.01);
         }
         50% {
             -webkit-text-stroke-color: rgba(255,255,255,0.55);
             filter: drop-shadow(20px 0 22px rgba(255,255,255,0.7))
                     drop-shadow(0 0 60px rgba(255,255,255,0.25));
-            transform: translateY(-50%) scale(1.02);
+            transform: translateY(-90%) scale(1.02);
         }
         75% {
             -webkit-text-stroke-color: rgba(255,255,255,0.4);
             filter: drop-shadow(60px 0 14px rgba(255,255,255,0.4))
                     drop-shadow(0 0 30px rgba(255,255,255,0.12));
-            transform: translateY(-50%) scale(1.01);
+            transform: translateY(-90%) scale(1.01);
         }
         100% {
             -webkit-text-stroke-color: rgba(255,255,255,0.12);
             filter: drop-shadow(100px 0 0px rgba(255,255,255,0))
                     drop-shadow(0 0 0px rgba(255,255,255,0));
-            transform: translateY(-50%) scale(1);
+            transform: translateY(-90%) scale(1);
         }
     }
-    .hero__content { position: relative; z-index: 1; padding-left: 0; }
+    .hero__content { position: relative; z-index: 1; padding-left: 0; margin-top: -4rem; }
     .hero__eyebrow {
         font-family: 'Space Mono', monospace;
         font-size: 1.1rem;
         letter-spacing: .2em;
         color: rgba(245,240,232,.4);
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         opacity: 0;
         animation: fade-up .8s cubic-bezier(0.16,1,0.3,1) 0s forwards;
+    }
+    .hero__eyebrow--auth {
+        margin-top: -2rem;
     }
     .hero__headline {
         font-family: 'Space Mono', monospace;
@@ -357,7 +362,7 @@
         text-transform: uppercase;
         display: flex;
         flex-direction: column;
-        padding-top: 3rem;
+        padding-top: 1rem;
     }
     /* Each word slides up */
     .line {
@@ -643,7 +648,7 @@
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 requestAnimationFrame(() => {
-                    heroBgText.style.transform = `translateY(calc(-50% + ${window.scrollY * 0.35}px))`;
+                    heroBgText.style.transform = `translateY(calc(-65% + ${window.scrollY * 0.35}px))`;
                     ticking = false;
                 });
                 ticking = true;
@@ -972,8 +977,8 @@
     .recent-section { padding: 100px 5vw; border-top: 1px solid rgba(245,240,232,.06); }
     .recent-inner { max-width: 1400px; margin: 0 auto; }
     .recent-scroll {
-        display: flex; gap: 16px; overflow-x: auto;
-        padding-bottom: 12px; scroll-snap-type: x mandatory;
+        display: flex; gap: 16px; overflow-x: auto; overflow-y: visible;
+        padding-bottom: 12px; padding-top: 8px; scroll-snap-type: x mandatory;
     }
     .recent-scroll::-webkit-scrollbar { height: 3px; }
     .recent-scroll::-webkit-scrollbar-thumb { background: #e84040; border-radius: 2px; }

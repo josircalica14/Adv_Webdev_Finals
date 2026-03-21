@@ -14,7 +14,6 @@ class PortfolioApiController extends Controller
     public function export(Request $request): Response
     {
         $itemIds = $request->input('item_ids', []);
-        $pdf     = $this->pdfExport->generate($request->user(), $itemIds);
-        return $pdf->download('portfolio.pdf');
+        return $this->pdfExport->generate($request->user(), $itemIds);
     }
 }

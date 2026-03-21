@@ -8,11 +8,13 @@
         <h2 style="font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:1.5rem;padding-bottom:12px;border-bottom:1px solid rgba(245,240,232,.1)">Portfolio Visibility</h2>
         <form method="POST" action="{{ route('dashboard.settings.visibility') }}">
             @csrf @method('PUT')
+            {{-- Hidden fallback so is_public=0 is always submitted --}}
+            <input type="hidden" name="is_public" value="0">
             <div style="display:flex;align-items:center;gap:16px;margin-bottom:1.5rem">
-                <label style="position:relative;cursor:pointer">
+                <label style="position:relative;cursor:pointer;flex-shrink:0" id="vis-label">
                     <input type="checkbox" name="is_public" value="1" {{ $portfolio->is_public ? 'checked' : '' }} style="position:absolute;opacity:0;width:0;height:0" id="vis-toggle">
                     <span id="vis-slider" style="display:block;width:56px;height:28px;background:{{ $portfolio->is_public ? 'rgba(232,64,64,.3)' : 'rgba(255,255,255,.1)' }};border:2px solid {{ $portfolio->is_public ? '#e84040' : 'rgba(245,240,232,.2)' }};border-radius:50px;position:relative;transition:all .3s">
-                        <span style="position:absolute;width:20px;height:20px;background:{{ $portfolio->is_public ? '#e84040' : 'rgba(245,240,232,.5)' }};border-radius:50%;top:2px;left:{{ $portfolio->is_public ? '30px' : '2px' }};transition:all .3s"></span>
+                        <span id="vis-thumb" style="position:absolute;width:20px;height:20px;background:{{ $portfolio->is_public ? '#e84040' : 'rgba(245,240,232,.5)' }};border-radius:50%;top:2px;left:{{ $portfolio->is_public ? '30px' : '2px' }};transition:all .3s"></span>
                     </span>
                 </label>
                 <div>
@@ -22,6 +24,17 @@
             </div>
             <button type="submit" style="padding:.7rem 1.8rem;background:#e84040;color:#fff;border:none;border-radius:999px;font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer"><i class="fas fa-save"></i> Save</button>
         </form>
+        <script>
+        document.getElementById('vis-toggle').addEventListener('change', function() {
+            var on = this.checked;
+            var slider = document.getElementById('vis-slider');
+            var thumb  = document.getElementById('vis-thumb');
+            slider.style.background = on ? 'rgba(232,64,64,.3)' : 'rgba(255,255,255,.1)';
+            slider.style.borderColor = on ? '#e84040' : 'rgba(245,240,232,.2)';
+            thumb.style.background  = on ? '#e84040' : 'rgba(245,240,232,.5)';
+            thumb.style.left        = on ? '30px' : '2px';
+        });
+        </script>
     </div>
 
     <div style="background:rgba(255,255,255,.03);border:1.5px solid rgba(245,240,232,.1);border-radius:.75rem;padding:30px">

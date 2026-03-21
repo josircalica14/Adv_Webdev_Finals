@@ -9,7 +9,16 @@ class ProfileService
 {
     public function updateProfile(User $user, array $data): User
     {
-        $user->update(array_merge($data, ['name' => $data['full_name']]));
+        $update = array_merge($data, ['name' => $data['full_name']]);
+        // Handle username change with cooldown check
+        if (isset($data['username']) && $data['username'] !== $user->username) {
+            $days = $this->getDaysUntilUsernameChange($user);
+            if ($days > 0) {
+                throw new \RuntimeException("You must wait {$days} more day(s) before changing your username.");
+            }
+            $update['last_username_change'] = now();
+        }
+        $user->update($update);
         return $user->fresh();
     }
 

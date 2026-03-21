@@ -124,6 +124,21 @@ powershell -Command "(Get-Content .env) -replace '# DB_PASSWORD=.*','DB_PASSWORD
 powershell -Command "(Get-Content .env) -replace 'DB_PASSWORD=.*','DB_PASSWORD=%DB_PASS%' | Set-Content .env"
 echo [OK] .env configured.
 
+:: ── 6b. API Keys ─────────────────────────────
+echo.
+echo [*] AI API Keys (press Enter to skip if already set in .env)
+set /p GROQ_KEY=Groq API Key: 
+set /p CHROME_PATH=Chrome path for PDF export (e.g. C:/Program Files/Google/Chrome/Application/chrome.exe): 
+
+if not "%GROQ_KEY%"=="" (
+    powershell -Command "(Get-Content .env) -replace 'GROQ_API_KEY=.*','GROQ_API_KEY=%GROQ_KEY%' | Set-Content .env"
+    echo [OK] Groq API key set.
+)
+if not "%CHROME_PATH%"=="" (
+    powershell -Command "(Get-Content .env) -replace 'BROWSERSHOT_CHROME_PATH=.*','BROWSERSHOT_CHROME_PATH=%CHROME_PATH%' | Set-Content .env"
+    echo [OK] Chrome path set.
+)
+
 :: ── 7. Composer install ──────────────────────
 echo.
 echo [*] Installing PHP dependencies...
@@ -149,6 +164,16 @@ echo.
 echo [*] Generating app key...
 %PHP% artisan key:generate --force
 echo [OK] App key set.
+
+:: ── 8b. npm install ──────────────────────────
+echo [*] Installing Node dependencies (Puppeteer for PDF)...
+where npm >nul 2>&1
+if %errorlevel%==0 (
+    npm install --silent
+    echo [OK] Node dependencies installed.
+) else (
+    echo [WARN] npm not found - PDF export may not work. Install Node.js from https://nodejs.org
+)
 
 :: ── 9. Storage link ──────────────────────────
 echo [*] Creating storage symlink...

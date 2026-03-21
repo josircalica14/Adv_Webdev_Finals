@@ -72,15 +72,29 @@
             <h2 class="portfolio-heading" style="font-size:1.8rem;font-weight:700;margin-bottom:30px;padding-bottom:12px;border-bottom:2px solid rgba(232,64,64,.3)">{{ $label }}</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px">
                 @foreach($grouped[$type] as $item)
-                <div class="pv-card" style="background:rgba(255,255,255,.03);border:1.5px solid rgba(245,240,232,.1);border-radius:.75rem;padding:24px;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s">
-                    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px">{{ $item->title }}</h3>
-                    @if($item->item_date)<p style="font-size:.72rem;color:rgba(245,240,232,.5);font-family:'Space Mono',monospace;margin-bottom:8px">{{ $item->item_date->format('M Y') }}</p>@endif
-                    <p style="font-size:.85rem;color:rgba(245,240,232,.7);line-height:1.7;margin-bottom:12px">{{ $item->description }}</p>
-                    @if($item->tags)
-                    <div style="display:flex;flex-wrap:wrap;gap:6px">
-                        @foreach($item->tags as $tag)<span style="font-size:.65rem;background:rgba(232,64,64,.15);color:#e84040;padding:.2rem .6rem;border-radius:999px">{{ $tag }}</span>@endforeach
+                <div class="pv-card" style="background:rgba(255,255,255,.03);border:1.5px solid rgba(245,240,232,.1);border-radius:.75rem;overflow:hidden;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s">
+                    @php
+                        $image = $item->files->first(fn($f) => str_starts_with($f->file_type, 'image/'));
+                    @endphp
+                    @if($image)
+                    <div style="width:100%;height:180px;overflow:hidden;background:rgba(0,0,0,.2)">
+                        <img src="{{ Storage::disk('portfolio')->url($image->thumbnail_path ?? $image->file_path) }}"
+                             alt="{{ $item->title }}"
+                             style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s"
+                             onmouseover="this.style.transform='scale(1.04)'"
+                             onmouseout="this.style.transform='scale(1)'">
                     </div>
                     @endif
+                    <div style="padding:24px">
+                        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px">{{ $item->title }}</h3>
+                        @if($item->item_date)<p style="font-size:.72rem;color:rgba(245,240,232,.5);font-family:'Space Mono',monospace;margin-bottom:8px">{{ $item->item_date->format('M Y') }}</p>@endif
+                        <p style="font-size:.85rem;color:rgba(245,240,232,.7);line-height:1.7;margin-bottom:12px">{{ $item->description }}</p>
+                        @if($item->tags)
+                        <div style="display:flex;flex-wrap:wrap;gap:6px">
+                            @foreach($item->tags as $tag)<span style="font-size:.65rem;background:rgba(232,64,64,.15);color:#e84040;padding:.2rem .6rem;border-radius:999px">{{ $tag }}</span>@endforeach
+                        </div>
+                        @endif
+                    </div>
                 </div>
                 @endforeach
             </div>

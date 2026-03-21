@@ -29,6 +29,7 @@ class UpdatePortfolioItemRequest extends FormRequest
             'links'       => ['nullable', 'array'],
             'links.*.url' => ['required_with:links', 'url'],
             'links.*.label' => ['required_with:links', 'string', 'max:100'],
+            'image'       => ['nullable', 'image', 'max:10240'],
         ];
     }
 }

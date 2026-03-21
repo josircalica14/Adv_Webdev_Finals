@@ -29,7 +29,11 @@ class ProfileController extends Controller
 
     public function update(UpdateProfileRequest $request): RedirectResponse
     {
-        $this->profileService->updateProfile($request->user(), $request->validated());
+        try {
+            $this->profileService->updateProfile($request->user(), $request->validated());
+        } catch (\RuntimeException $e) {
+            return back()->withErrors(['username' => $e->getMessage()]);
+        }
         return back()->with('status', 'Profile updated.');
     }
 
@@ -39,13 +43,17 @@ class ProfileController extends Controller
         $user = $request->user();
 
         try {
-            $portfolio = $this->portfolioService->getOrCreatePortfolio($user);
-            $item = $portfolio->items()->firstOrCreate(
-                ['item_type' => 'project', 'title' => '__profile_photo__'],
-                ['description' => 'Profile photo placeholder', 'is_visible' => false]
-            );
-            $file = $this->fileStorage->upload($request->file('photo'), $user, $item);
-            $user->update(['profile_photo_path' => $file->file_path]);
+            // Store directly on the portfolio disk without creating a portfolio item
+            $photo = $request->file('photo');
+            $name  = 'profile_photos/' . $user->id . '_' . time() . '.' . $photo->getClientOriginalExtension();
+            \Illuminate\Support\Facades\Storage::disk('portfolio')->put($name, file_get_contents($photo->getRealPath()));
+
+            // Delete old photo if exists
+            if ($user->profile_photo_path && \Illuminate\Support\Facades\Storage::disk('portfolio')->exists($user->profile_photo_path)) {
+                \Illuminate\Support\Facades\Storage::disk('portfolio')->delete($user->profile_photo_path);
+            }
+
+            $user->update(['profile_photo_path' => $name]);
         } catch (\Throwable $e) {
             return back()->withErrors(['photo' => $e->getMessage()]);
         }

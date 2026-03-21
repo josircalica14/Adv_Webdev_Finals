@@ -1,5 +1,6 @@
 <div class="portfolio-grid">
     @forelse($portfolios as $portfolio)
+    @if(!$portfolio->user->username) @continue @endif
     <a href="{{ route('portfolio.public', $portfolio->user->username) }}" class="portfolio-card">
         <div class="card-top">
             @if($portfolio->user->profile_photo_path)

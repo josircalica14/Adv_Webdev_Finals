@@ -25,6 +25,17 @@
         <form method="POST" action="{{ route('dashboard.profile.update') }}">
             @csrf @method('PUT')
 
+            {{-- Username --}}
+            <div style="margin-bottom:1.2rem">
+                <label style="display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:.5rem">Username</label>
+                <div style="position:relative">
+                    <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(245,240,232,.35);font-family:'Space Mono',monospace;font-size:.82rem">@</span>
+                    <input type="text" name="username" value="{{ old('username', $user->username) }}"
+                        style="width:100%;padding:12px 16px 12px 30px;background:rgba(255,255,255,.05);border:1.5px solid rgba(245,240,232,.15);border-radius:.5rem;color:#f5f0e8;font-size:.85rem;font-family:'Instrument Sans',sans-serif;box-sizing:border-box">
+                </div>
+                @error('username')<p style="color:#ff5252;font-size:.72rem;margin-top:.3rem">{{ $message }}</p>@enderror
+            </div>
+
             @foreach([['full_name','Full Name','text',$user->full_name],['bio','Bio','textarea',$user->bio]] as [$name,$label,$type,$val])
             <div style="margin-bottom:1.2rem">
                 <label style="display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:.5rem">{{ $label }}</label>

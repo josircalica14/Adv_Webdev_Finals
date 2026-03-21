@@ -7,6 +7,7 @@ use App\Http\Requests\Portfolio\ReorderItemsRequest;
 use App\Http\Requests\Portfolio\StorePortfolioItemRequest;
 use App\Http\Requests\Portfolio\UpdatePortfolioItemRequest;
 use App\Models\PortfolioItem;
+use App\Services\FileStorageService;
 use App\Services\PortfolioService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,10 @@ use Illuminate\View\View;
 
 class PortfolioItemController extends Controller
 {
-    public function __construct(private PortfolioService $portfolioService) {}
+    public function __construct(
+        private PortfolioService $portfolioService,
+        private FileStorageService $fileStorage,
+    ) {}
 
     public function create(): View
     {
@@ -23,13 +27,23 @@ class PortfolioItemController extends Controller
 
     public function store(StorePortfolioItemRequest $request): RedirectResponse
     {
-        $this->portfolioService->createItem($request->user(), $request->validated());
+        $item = $this->portfolioService->createItem($request->user(), $request->validated());
+
+        if ($request->hasFile('image')) {
+            try {
+                $this->fileStorage->upload($request->file('image'), $request->user(), $item);
+            } catch (\Throwable $e) {
+                return redirect()->route('dashboard.index')->with('status', 'Item added but image upload failed: ' . $e->getMessage());
+            }
+        }
+
         return redirect()->route('dashboard.index')->with('status', 'Item added.');
     }
 
     public function edit(PortfolioItem $item): View
     {
         $this->authorize('update', $item);
+        $item->load('files');
         return view('portfolio.edit-item', compact('item'));
     }
 
@@ -37,6 +51,15 @@ class PortfolioItemController extends Controller
     {
         $this->authorize('update', $item);
         $this->portfolioService->updateItem($item, $request->validated());
+
+        if ($request->hasFile('image')) {
+            try {
+                $this->fileStorage->upload($request->file('image'), $request->user(), $item);
+            } catch (\Throwable $e) {
+                return redirect()->route('dashboard.index')->with('status', 'Item updated but image upload failed: ' . $e->getMessage());
+            }
+        }
+
         return redirect()->route('dashboard.index')->with('status', 'Item updated.');
     }
 
